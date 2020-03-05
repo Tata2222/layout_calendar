@@ -1,3 +1,55 @@
+$size-cell: 100px;
+$week: (mon: 0,	tue: 1, wen: 2,	thu: 3,	fri: 4,	sat: 5,	sun: 6);
+$month: 28, 29, 30, 31;
+
 body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
+}
+
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  width: 710px;
+  > div {
+    display: none;
+    width: $size-cell;
+    height: $size-cell;
+    border: 1px solid #000;
+    text-align: center;
+    background-color: #eee;
+    box-sizing: border-box;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    transition: transform 0.6s, background-color 0.7s;
+    &:hover {
+      cursor: pointer;
+      background-color: pink;
+    }
+  }
+}
+
+@for $day from 1 through 31 {
+  .calendar div:nth-child(#{$day})::after {
+    content: "#{$day}";
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    line-height: $size-cell;
+  }
+}
+
+@each $weekday, $day-number in $week {
+  .calendar-#{$weekday} div:first-child {
+    margin-left: #{100*$day-number + $day-number}px;
+  }
+}
+
+@each $count-days in $month {
+  @for $days from 1 through $count-days {
+    .calendar-#{$count-days} div:nth-child(#{$days}) {
+      display: block;
+    }
+  }
 }
